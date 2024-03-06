@@ -1,8 +1,8 @@
 'use strict';
 
-import { writeFileSync } from 'fs';
-import { validateInputFilePath, validateOutputFilePath, readMarkdownFile } from './validations.js';
-import { convertMarkdownToHTML } from './markdownConverter.js';
+const { writeFileSync } = require('node:fs');
+const { validateInputFilePath, validateOutputFilePath, readMarkdownFile } = require('./validations.js');
+const { convertMarkdownToHTML } = require('./markdownConverter.js');
 
 const startFileMode = () => {
     const inputFilePath = process.argv[2];
@@ -19,4 +19,4 @@ const startFileMode = () => {
     console.log(`HTML successfully written to: ${outputFilePath}`);
 }
 
-export { startFileMode };
+module.exports = { startFileMode };

@@ -1,7 +1,7 @@
 'use strict';
 
-import { startConsoleMode } from './src/consoleMode.js';
-import { startFileMode } from './src/fileMode.js';
+const { startConsoleMode } = require('./src/consoleMode.js');
+const { startFileMode } = require('./src/fileMode.js');
 
 if (process.argv.length < 3) {
     console.error('\x1b[31mError:\x1b[0m Please provide the path to the input Markdown file.');

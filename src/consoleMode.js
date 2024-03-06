@@ -1,7 +1,7 @@
 'use strict';
 
-import { validateInputFilePath, readMarkdownFile } from './validations.js';
-import { convertMarkdownToHTML } from './markdownConverter.js';
+const { validateInputFilePath, readMarkdownFile } = require('./validations.js');
+const { convertMarkdownToHTML } = require('./markdownConverter.js');
 
 const startConsoleMode = () => {
     const filePath = process.argv[2];
@@ -14,4 +14,4 @@ const startConsoleMode = () => {
     console.log(`${consoleText}`);
 }
 
-export { startConsoleMode };
+module.exports = { startConsoleMode };

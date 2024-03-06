@@ -47,114 +47,29 @@ const regExpesError = [
 
 const preData = [];
 
-const preformattedTextOpenedTag = '<pre>';
-const preformattedTextClosedTag = '</pre>';
 const paragraphOpenedTag = '<p>';
 const paragraphClosedTag = '</p>';
 
 const processParagraphs = (markdownText) => {
-  let isPreformatted = false;
-  const strings = markdownText.split('\n');
-  const result = [];
-  let isParagraphOpen = false;
+  markdownText = markdownText.replace(/[\r]/g, '');
+  markdownText = paragraphOpenedTag + markdownText;
 
-  strings.forEach((string, i) => {
-    const trimmedString = string.trim();
+  let idx;
+  while ((idx = markdownText.indexOf('\n\n')) !== -1) {
+      let nextNonEmptyIdx = idx + 2;
 
-    if (trimmedString.includes(preformattedTextOpenedTag)) {
-      isPreformatted = true;
-      result.push(string);
-      return;
-    }
-
-    if (trimmedString !== '' && !/^[-*]\s*$/.test(trimmedString)) {
-      if (!isParagraphOpen && !isPreformatted) {
-        result.push(paragraphOpenedTag);
-        isParagraphOpen = true;
+      while (nextNonEmptyIdx < markdownText.length && /^\s*$/.test(markdownText.charAt(nextNonEmptyIdx))) {
+          nextNonEmptyIdx++;
       }
 
-      result.push(string);
-    } else {
-      if (isParagraphOpen && !isPreformatted) {
-        result.push(paragraphClosedTag);
-        isParagraphOpen = false;
-      }
-      if (isPreformatted) {
-        result.push(string);
-      }
-    }
-
-    if (trimmedString.includes(preformattedTextClosedTag)) {
-      isPreformatted = false;
-      return;
-    }
-
-    const nextStringIsEmpty = i < strings.length - 1 && strings[i + 1].trim() === '';
-    const nextStringIsPreformatted = i < strings.length - 1 && strings[i + 1].includes(preformattedTextOpenedTag);
-
-    if (nextStringIsPreformatted) {
-      if (isParagraphOpen && !isPreformatted) {
-        result.push(paragraphClosedTag);
-        isParagraphOpen = false;
-      }
-    }
-
-    if (nextStringIsEmpty && !isPreformatted) {
-      return;
-    }
-
-    if (i > 0 && strings[i - 1].includes(preformattedTextClosedTag)) {
-      if (!isParagraphOpen && !isPreformatted) {
-        result.push(paragraphOpenedTag);
-        isParagraphOpen = true;
-      }
-    }
-
-    if (trimmedString === paragraphOpenedTag && i < strings.length - 1 && strings[i + 1] === paragraphClosedTag) {
-      result.push(string);
-    }
-  });
-
-  if (isParagraphOpen && !isPreformatted) {
-    result.push(paragraphClosedTag);
+      markdownText = markdownText.slice(0, idx) + `${paragraphClosedTag}\n${paragraphOpenedTag}` + markdownText.slice(nextNonEmptyIdx);
   }
 
-  return result.join('\n');
+  markdownText = markdownText + paragraphClosedTag;
+  markdownText = markdownText.replace(/<p><pre>/g, '<p>\n<pre>');
+  markdownText = markdownText.replace(/<\/pre><\/p>/g, '</pre>\n</p>');
+  return markdownText;
 };
-
-const mergeStringsWithCondition = (markdownText, condition) => {
-    const strings = markdownText.split('\n');
-    const mergedStrings = [];
-    const paragraphOpeningCheck = new RegExp(`^${paragraphOpenedTag}$`);
-    const paragraphClosingCheck = new RegExp(`^${paragraphClosedTag}$`);
-  
-    for (let i = 0; i < strings.length; i++) { 
-        const currentString = strings[i];
-        const nextString = strings[i + 1];
-  
-        if(condition === paragraphOpenedTag) {
-            if (paragraphOpeningCheck.test(currentString)) {
-                const newString = strings[i].replace(/[\r\n]/g, '');
-                mergedStrings.push(newString + nextString);
-                i++;
-            } else {
-                mergedStrings.push(strings[i]);
-            }
-        }
-  
-        if(condition === paragraphClosedTag) {
-            if (paragraphClosingCheck.test(nextString)) {
-                const newString = strings[i].replace(/[\r\n]/g, '');
-                mergedStrings.push(newString + nextString);
-                i++;
-            } else {
-                mergedStrings.push(strings[i]);
-            }
-        }
-    }
-
-    return mergedStrings.join('\n');
-  }
 
 const isNestedTag = (markdownText) => {
   const nestedTestText = markdownText
@@ -207,11 +122,9 @@ const convertMarkdownToHTML = (markdownText) => {
     console.error(`\x1b[31mError:\x1b[0m Invalid Markdown not finished tags.`);
     process.exit(406);
   }
-  markdownText = deleteInternalSymbols(markdownText, '~!!!~');
   markdownText = processParagraphs(markdownText);
-  markdownText = mergeStringsWithCondition(markdownText, paragraphOpenedTag);
-  markdownText = mergeStringsWithCondition(markdownText, paragraphClosedTag);
+  markdownText = deleteInternalSymbols(markdownText, '~!!!~');
   return markdownText;
 };
 
-export { convertMarkdownToHTML };
+module.exports = { convertMarkdownToHTML };

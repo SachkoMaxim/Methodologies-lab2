@@ -1,6 +1,6 @@
 'use strict';
 
-import { existsSync, readFileSync, writeFileSync } from 'fs';
+const { existsSync, readFileSync, writeFileSync } = require('node:fs');
 
 const validateInputFilePath = (filePath) => {
     if (!existsSync(filePath)) {
@@ -53,4 +53,4 @@ const readMarkdownFile = (filePath) => {
     }
 };
 
-export { validateInputFilePath, validateOutputFilePath, readMarkdownFile };
+module.exports = { validateInputFilePath, validateOutputFilePath, readMarkdownFile };
