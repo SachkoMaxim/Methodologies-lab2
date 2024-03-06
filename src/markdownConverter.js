@@ -93,8 +93,8 @@ const isInvalidTags = (markdownText) => {
 };
 
 const deleteInternalSymbols = (data, symbols) => {
-  for (const elem of preData) {
-    data = data.replace(symbols, elem);
+  while (preData.length) {
+    data = data.replace(symbols, preData.shift());
   }
   return data;
 };
