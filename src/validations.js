@@ -26,8 +26,8 @@ const validateOutputFilePath = (filePath) => {
         throw err;
     }
 
-    if (!/\.(html)$/i.test(filePath)) {
-        const err = new Error('\x1b[31mError:\x1b[0m Invalid output file type. Please provide an HTML file.');
+    if (!/\.(html|txt)$/i.test(filePath)) {
+        const err = new Error('\x1b[31mError:\x1b[0m Invalid output file type. Please provide an HTML or TXT file.');
         // exit code is 415 as for Unsupported Media Type
         err.code = 415;
         throw err;
