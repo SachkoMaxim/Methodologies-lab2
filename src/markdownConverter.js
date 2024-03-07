@@ -112,15 +112,17 @@ const convertMarkdownToHTML = (markdownText) => {
       preformatedText = preformatedText.slice(0, symbolIndexEnd);
       const formatedText = regExp.fn ? regExp.fn(preformatedText) : preformatedText;
       if (!regExp.nestedTag && isNestedTag(' ' + formatedText)) {
-        console.error(`\x1b[31mError:\x1b[0m Invalid Markdown nested tags.`);
-        process.exit(406);
+        const err = new Error('\x1b[31mError:\x1b[0m Invalid Markdown nested tags.');
+        err.code = 406;
+        throw err;
       }
       markdownText = markdownText.slice(0, midx) + regExp.changeToStart + formatedText + regExp.changeToEnd + markdownText.slice(endIdx + regExp.length * 2); 
     }
   }
   if (isInvalidTags(markdownText)) {
-    console.error(`\x1b[31mError:\x1b[0m Invalid Markdown not finished tags.`);
-    process.exit(406);
+    const err = new Error('\x1b[31mError:\x1b[0m Invalid Markdown not finished tags.');
+    err.code = 406;
+    throw err;
   }
   markdownText = processParagraphs(markdownText);
   markdownText = deleteInternalSymbols(markdownText, '~!!!~');
