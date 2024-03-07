@@ -1,7 +1,7 @@
 'use strict';
 
 const { validateInputFilePath, readMarkdownFile } = require('./validations.js');
-const { convertMarkdownToHTML } = require('./markdownConverter.js');
+const { convertMarkdown } = require('./markdownConverter.js');
 
 const startConsoleMode = () => {
     const filePath = process.argv[2];
@@ -18,7 +18,7 @@ const startConsoleMode = () => {
         format = formatOptionValue !== '' ? formatOptionValue : 'ansi';
     }
 
-    const consoleText = convertMarkdownToHTML(markdownText, format);
+    const consoleText = convertMarkdown(markdownText, format);
     console.log(`${consoleText}`);
 }
 

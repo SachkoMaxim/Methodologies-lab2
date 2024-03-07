@@ -2,7 +2,7 @@
 
 const { writeFileSync } = require('node:fs');
 const { validateInputFilePath, validateOutputFilePath, readMarkdownFile } = require('./validations.js');
-const { convertMarkdownToHTML } = require('./markdownConverter.js');
+const { convertMarkdown } = require('./markdownConverter.js');
 
 const startFileMode = () => {
     const inputFilePath = process.argv[2];
@@ -22,7 +22,7 @@ const startFileMode = () => {
         format = formatOptionValue !== '' ? formatOptionValue : 'html';
     }
 
-    const fileText = convertMarkdownToHTML(markdownText, format);
+    const fileText = convertMarkdown(markdownText, format);
     writeFileSync(outputFilePath, fileText, 'utf-8');
 
     console.log(`HTML successfully written to: ${outputFilePath}`);

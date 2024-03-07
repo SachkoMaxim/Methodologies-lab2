@@ -99,7 +99,7 @@ const deleteInternalSymbols = (data, symbols) => {
   return data;
 };
 
-const convertMarkdownToHTML = (markdownText, format) => {
+const convertMarkdown = (markdownText, format) => {
   for (const regExp of regExpes) {
     let match;
     while ((match = markdownText.match(regExp.regExp)) != null) {
@@ -131,4 +131,4 @@ const convertMarkdownToHTML = (markdownText, format) => {
   return markdownText;
 };
 
-module.exports = { convertMarkdownToHTML };
+module.exports = { convertMarkdown };
