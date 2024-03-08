@@ -16,7 +16,7 @@ It can also detect invalid markup and find nested tags, save the output data to 
 
 2. Then navigate to the cloned repository folder:
    ```bash
-   cd ../Methodologies-lab
+   cd ../Methodologies-lab2
    ```
 
 3. Install dependencies:
@@ -102,7 +102,7 @@ npm run test
 
 
 ### [Failed tests link](https://github.com/SachkoMaxim/Methodologies-lab2/commit/96dde5280ed2750ad5b3b84b4acdd0f4b7893f01)
-### Revert-commit link
+### [Revert-commit link](https://github.com/SachkoMaxim/Methodologies-lab2/commit/9908728989d09874fa6a7d38fa9ffefb0ab80b6f)
 
 ___
 
