@@ -163,3 +163,9 @@ And this.`},
     };
     runTestsForDifferentFormats('ansi', tests);
   });
+
+  describe('Not right format', () => {
+    test('Wrong format', () => {
+        expect(() => convertMarkdown('It\'s testing words.', 'md')).toThrowError('\x1b[31mError:\x1b[0m Invalid format type: md.\nUse html or ansi format.');
+    });
+  });

@@ -47,6 +47,10 @@ const regExpesError = [
 
 const preData = [];
 
+const workingFormats = ['html', 'ansi'];
+
+const isWorkingFormat = (format) => workingFormats.includes(format);
+
 const paragraphOpenedTag = '<p>';
 const paragraphClosedTag = '</p>';
 
@@ -100,6 +104,12 @@ const deleteInternalSymbols = (data, symbols) => {
 };
 
 const convertMarkdown = (markdownText, format) => {
+  if (!isWorkingFormat(format)) {
+    const err = new Error('\x1b[31mError:\x1b[0m Invalid format type: ' + format + '.\nUse html or ansi format.');
+    // exit code is 415 as for Unsupported Media Type
+    err.code = 415;
+    throw err;
+  }
   for (const regExp of regExpes) {
     let match;
     while ((match = markdownText.match(regExp.regExp)) != null) {
@@ -113,6 +123,7 @@ const convertMarkdown = (markdownText, format) => {
       const formatedText = regExp.fn ? regExp.fn(preformatedText) : preformatedText;
       if (!regExp.nestedTag && isNestedTag(' ' + formatedText, format)) {
         const err = new Error('\x1b[31mError:\x1b[0m Invalid Markdown nested tags.');
+        // The exit code is 406, similar to HTTP Not Acceptable status code
         err.code = 406;
         throw err;
       }
@@ -121,6 +132,7 @@ const convertMarkdown = (markdownText, format) => {
   }
   if (isInvalidTags(markdownText)) {
     const err = new Error('\x1b[31mError:\x1b[0m Invalid Markdown not finished tags.');
+    // The exit code is 406, similar to HTTP Not Acceptable status code
     err.code = 406;
     throw err;
   }
