@@ -36,8 +36,6 @@ Markdown-to-HTML|ANSI convertor has two modes: console mode and file mode.
 
 ### Console mode
 
-___
-
 To run the program in the console mode, just type this command in your terminal in the project folder (don't forget to pass the input file path into the arguments of the command):
 
 ```bash
@@ -47,8 +45,6 @@ node main.js </path/to/markdown.md>
 After that, the converted text with ANSI tags will be displayed in stdout (if there was no mistakes, of course).
 
 ### File mode
-
-___
 
 To run the program in the file mode, you need to add **--out** and pass the output file path into the arguments of the previous command:
 > **NOTE:** if you didn't write **--out** the converted text will be redirected to stdout
@@ -62,8 +58,6 @@ node main.js </path/to/markdown.md> --out </path/to/file.html|txt>
 After that, the converted text with HTML tags will be saved to a .html or .txt file you choosed as an output file (if there was no mistakes, of course).
 
 ### Format
-
-___
 
 You can specify the output text format using **--format=**. You can use one of these commands:
 > **NOTE:** you can specify only two formats: **html** and **ansi**
@@ -81,8 +75,6 @@ node main.js </path/to/markdown.md> --format=<format> --out </path/to/file.html|
 ```
 
 #### INFO
-
-___
 
 1. If you do not specify format and do not using **--out** the output text will be **ANSI** as default and directed to stdout.
 2. If you specify **--out**, but do not specify format the output text will be **HTML** as default and directed to specified file.
@@ -107,3 +99,7 @@ npm run test
 ___
 
 ## Conclusion
+
+Використання unit-тестів виявилося дуже ефективним та цікавим у даній лабораторній роботі, тому що мені не потрібно було кожен раз запускати проєкт з нуля і робити перевірку за допомогою великої кількості тексту, який треба було писати кожен раз, щоб розуміти, чи працює та чи інша функція (або помилка). Можна запустити тести після зміни логіки функції\функцій однією командою і покриються віддразу всі випадки. Це дуже економить час та не вимагає такої концентрації, як при ручному вводі даних.
+
+Багато хто вважатиме, що на написання тестів іде багато часу і це не вигідно, але в майбутньому, при розробці проєкту, ці тести зекономлять вам багато часу, бо перевірку уже не треба створювати.
